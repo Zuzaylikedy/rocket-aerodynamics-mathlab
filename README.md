@@ -36,7 +36,7 @@ The static stability margin is calculated based on the distance between the Cent
 | *Distance (CP - CG)* | 2.5 | cm |
 | *Static Stability Margin* | *1.05* | *Caliber* |
 
-> *Note:* A static stability margin between *1.05 and 2.0 Caliber* was targeted throughout the powered flight phase to ensure aerodynamic stability without over-restoration under crosswind conditions.
+> *Note:* A static stability margin between *1 and 2.0 Caliber* was targeted throughout the powered flight phase to ensure aerodynamic stability without over-restoration under crosswind conditions.
 
  
 📈 Rocket Performance and Aerodynamic Analysis Simulation (MATLAB)
