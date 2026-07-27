@@ -1,0 +1,136 @@
+clear; clc; close all;
+
+winds = [0, 10, 20]; 
+files_wind_A = {'27_0kmh.csv', '27_10kmh.csv', '27_20kmh.csv'};
+files_wind_B = {'g7_0kmh.csv', 'g7_10kmh.csv', 'g7_20kmh.csv'};
+
+nose_types = {'Ogive', 'Conical', 'Ellipsoid'};
+files_nose_A = {'27.csv', 'conical_27.csv', 'ellipsoid_27.csv'};
+files_nose_B = {'g7.csv', 'conical_g7.csv', 'ellipsoid_g7.csv'};
+
+dataA = cell(1,3); dataB = cell(1,3);
+dataA_nose = cell(1,3); dataB_nose = cell(1,3);
+
+for i = 1:3
+    optsA = detectImportOptions(files_wind_A{i}, 'FileType', 'text', 'CommentStyle', '#');
+    optsA.VariableNamingRule = 'preserve';
+    dataA{i} = readtable(files_wind_A{i}, optsA);
+    
+    optsB = detectImportOptions(files_wind_B{i}, 'FileType', 'text', 'CommentStyle', '#');
+    optsB.VariableNamingRule = 'preserve';
+    dataB{i} = readtable(files_wind_B{i}, optsB);
+end
+
+for i = 1:3
+    optsnA = detectImportOptions(files_nose_A{i}, 'FileType', 'text', 'CommentStyle', '#');
+    optsnA.VariableNamingRule = 'preserve';
+    dataA_nose{i} = readtable(files_nose_A{i}, optsnA);
+    
+    optsnB = detectImportOptions(files_nose_B{i}, 'FileType', 'text', 'CommentStyle', '#');
+    optsnB.VariableNamingRule = 'preserve';
+    dataB_nose{i} = readtable(files_nose_B{i}, optsnB);
+end
+
+apogee_A = zeros(1,3); apogee_B = zeros(1,3);
+for i = 1:3
+    apogee_A(i) = max(dataA{i}{:,2}); 
+    apogee_B(i) = max(dataB{i}{:,2});
+end
+
+figure(1); clf;
+bar_data = [apogee_A; apogee_B]';
+b1 = bar(winds, bar_data, 'grouped');
+b1(1).FaceColor = 'b'; b1(2).FaceColor = 'r';
+grid on; box on;
+title('Rüzgar Hızına Göre Maksimum İrtifa (Apogee) Karşılaştırması');
+xlabel('Rüzgar Hızı (km/h)'); ylabel('Maksimum İrtifa (m)');
+legend({'276H Motoru', 'G77 Motoru'}, 'Location', 'northeast');
+
+colors = {'g', 'b', 'r'};
+line_styles = {'-', '--', '-.'};
+
+figure(2); clf;
+subplot(2,1,1); hold on; grid on; box on;
+for i = 1:3, plot(dataA{i}{:,1}, dataA{i}{:,2}, 'LineWidth', 1.5, 'Color', colors{i}, 'LineStyle', line_styles{i}); end
+title('276H Motoru: İrtifa - Zaman (Rüzgar)'); xlabel('Zaman (s)'); ylabel('İrtifa (m)');
+legend({'0 km/h', '10 km/h', '20 km/h'}, 'Location', 'best');
+
+subplot(2,1,2); hold on; grid on; box on;
+for i = 1:3, plot(dataA{i}{:,1}, dataA{i}{:,3}, 'LineWidth', 1.5, 'Color', colors{i}, 'LineStyle', line_styles{i}); end
+title('276H Motoru: Dikey Hız - Zaman (Rüzgar)'); xlabel('Zaman (s)'); ylabel('Hız (m/s)');
+legend({'0 km/h', '10 km/h', '20 km/h'}, 'Location', 'best');
+
+figure(3); clf;
+subplot(2,1,1); hold on; grid on; box on;
+for i = 1:3, plot(dataB{i}{:,1}, dataB{i}{:,2}, 'LineWidth', 1.5, 'Color', colors{i}, 'LineStyle', line_styles{i}); end
+title('G77 Motoru: İrtifa - Zaman (Rüzgar)'); xlabel('Zaman (s)'); ylabel('İrtifa (m)');
+legend({'0 km/h', '10 km/h', '20 km/h'}, 'Location', 'best');
+
+subplot(2,1,2); hold on; grid on; box on;
+for i = 1:3, plot(dataB{i}{:,1}, dataB{i}{:,3}, 'LineWidth', 1.5, 'Color', colors{i}, 'LineStyle', line_styles{i}); end
+title('G77 Motoru: Dikey Hız - Zaman (Rüzgar)'); xlabel('Zaman (s)'); ylabel('Hız (m/s)');
+legend({'0 km/h', '10 km/h', '20 km/h'}, 'Location', 'best');
+
+colors_nose = {'#0072BD', '#D9531F', '#7E2F8E'}; % Mavi, Turuncu, Mor
+
+figure(4); clf;
+subplot(2,1,1); hold on; grid on; box on;
+for i = 1:3
+    plot(dataA_nose{i}{:,1}, dataA_nose{i}{:,2}, 'LineWidth', 1.8, 'Color', colors_nose{i});
+end
+title('276H Motoru: Burun Konisi Geometrisine Göre İrtifa Değişimi');
+xlabel('Zaman (s)'); ylabel('İrtifa (m)');
+legend(nose_types, 'Location', 'best');
+
+subplot(2,1,2); hold on; grid on; box on;
+for i = 1:3
+    plot(dataA_nose{i}{:,1}, dataA_nose{i}{:,3}, 'LineWidth', 1.8, 'Color', colors_nose{i});
+end
+title('276H Motoru: Burun Konisi Geometrisine Göre Hız Değişimi');
+xlabel('Zaman (s)'); ylabel('Hız (m/s)');
+legend(nose_types, 'Location', 'best');
+sgtitle('276H Motoru - Aerodinamik Burun Tipleri Analizi');
+
+figure(5); clf;
+subplot(2,1,1); hold on; grid on; box on;
+for i = 1:3
+    plot(dataB_nose{i}{:,1}, dataB_nose{i}{:,2}, 'LineWidth', 1.8, 'Color', colors_nose{i});
+end
+title('G77 Motoru: Burun Konisi Geometrisine Göre İrtifa Değişimi');
+xlabel('Zaman (s)'); ylabel('İrtifa (m)');
+legend(nose_types, 'Location', 'best');
+
+subplot(2,1,2); hold on; grid on; box on;
+for i = 1:3
+    plot(dataB_nose{i}{:,1}, dataB_nose{i}{:,3}, 'LineWidth', 1.8, 'Color', colors_nose{i});
+end
+title('G77 Motoru: Burun Konisi Geometrisine Göre Hız Değişimi');
+xlabel('Zaman (s)'); ylabel('Hız (m/s)');
+legend(nose_types, 'Location', 'best');
+sgtitle('G77 Motoru - Aerodinamik Burun Tipleri Analizi');
+
+apogee_A_nose = zeros(1,3); apogee_B_nose = zeros(1,3);
+for i = 1:3
+    apogee_A_nose(i) = max(dataA_nose{i}{:,2});
+    apogee_B_nose(i) = max(dataB_nose{i}{:,2});
+end
+
+figure(6); clf;
+bar_nose_data = [apogee_A_nose; apogee_B_nose]';
+b2 = bar(categorical(nose_types), bar_nose_data, 'grouped');
+b2(1).FaceColor = 'b'; b2(2).FaceColor = 'r';
+grid on; box on;
+title('Burun Tipi Geometrisine Göre Apogee (Maksimum İrtifa) Karşılaştırması');
+ylabel('Maksimum İrtifa (m)');
+legend({'276H Motoru', 'G77 Motoru'}, 'Location', 'northeast');
+
+fprintf('\n================ BURUN TİPİ PERFORMANS ÖZETİ ================\n');
+fprintf('%-10s | %-12s | %-15s | %-15s\n', 'Motor', 'Burun Tipi', 'Max İrtifa (m)', 'Max Hız (m/s)');
+fprintf('-------------------------------------------------------------\n');
+for i = 1:3
+    fprintf('%-10s | %-12s | %-15.2f | %-15.2f\n', '27', nose_types{i}, apogee_A_nose(i), max(dataA_nose{i}{:,3}));
+end
+fprintf('-------------------------------------------------------------\n');
+for i = 1:3
+    fprintf('%-10s | %-12s | %-15.2f | %-15.2f\n', 'G7', nose_types{i}, apogee_B_nose(i), max(dataB_nose{i}{:,3}));
+end
