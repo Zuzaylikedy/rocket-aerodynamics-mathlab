@@ -4,7 +4,7 @@ The physical and geometric parameters used in the simulation model are detailed 
 
 | Parameter | Value | Unit | Description |
 | :--- | :--- | :--- | :--- |
-| *Mass* | 44,2] | g | Total mass |
+| *Mass* | 44,2 | g | Total mass |
 | *Mass with 276H 152-15A-6* | 342 | g | Total mass with 276H 152-15A-6 |
 | *Mass with G77R-6* | 199 | g | Total mass with G77R-6 |
 | *Body Diameter* | 2,5 | cm | Outer airframe diameter |
@@ -36,7 +36,7 @@ The static stability margin is calculated based on the distance between the Cent
 | *Distance (CP - CG)* | 2.5 | cm |
 | *Static Stability Margin* | *1.05* | *Caliber* |
 
-> *Note:* A static stability margin between *1 and 2.0 Caliber* was targeted throughout the powered flight phase to ensure aerodynamic stability without over-restoration under crosswind conditions.
+> *Note:* A static stability margin between *1.0 and 2.0 Caliber* was targeted throughout the powered flight phase to ensure aerodynamic stability without over-restoration under crosswind conditions.
 
  
 📈 Rocket Performance and Aerodynamic Analysis Simulation (MATLAB)
@@ -44,8 +44,8 @@ The static stability margin is calculated based on the distance between the Cent
 This repository contains a MATLAB simulation designed to analyze the flight dynamics of rocket motors (276H & G77) under varying environmental wind conditions (0, 10, 20 km/h) and aerodynamic nose cone geometries (Ogive, Conical, Ellipsoid).
 
 ### Key Features
-- **Motor Comparison:** Apogee (peak altitude) and vertical velocity analysis between 276H and G77 motors.
-- **Aerodynamic Optimization:** Evaluation of Drag Coefficient ($C_d$) effects across Ogive, Conical, and Ellipsoid nose cones.
+- **Motor Comparison:** Apogee (peak altitude) and vertical velocity analysis between 276H 152-15A-6 and G77R-6 motors.
+- **Aerodynamic Optimization:** Evaluation of Drag Coefficient effects across Ogive, Conical, and Ellipsoid nose cones.
 - **Wind Dynamics:** Assessment of vertical velocity stability and apogee loss under different wind speeds.
 - **Data Visualization:** Automated multi-subplot line & bar charts generated via MATLAB.
 
